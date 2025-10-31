@@ -52,9 +52,17 @@
             <strong>{{ link.titulo }}</strong>
             <small class="d-block text-secondary">{{ link.url_destino }}</small>
           </div>
-          <a href="{{ url_for('delete_link', link_id=link.id) }}" class="btn btn-outline-danger btn-sm">
-            Deletar
-          </a>
+          
+          <div>
+            <a href="{{ url_for('edit_link', link_id=link.id) }}" class="btn btn-outline-secondary btn-sm me-2">
+              Editar
+            </a>  
+            
+            <a href="{{ url_for('delete_link', link_id=link.id) }}" class="btn btn-outline-danger btn-sm">
+              Deletar
+            </a>
+          </div>
+
         </li>
       {% else %}
         <li class="list-group-item bg-dark text-white-50 border-secondary">Nenhum link cadastrado.</li>
