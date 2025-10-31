@@ -29,6 +29,43 @@ login_manager.login_message_category = 'danger'
 def load_user(user_id):
     return Usuario.query.get(int(user_id))
 
+@app.route('/register', methods=['GET', 'POST'])
+def register_page():
+    if current_user.is_authenticated:
+        return redirect(url_for('admin_page'))
+    
+    if request.method == 'POST':
+
+        username_form = request.form.get('username')
+        nome_form = request.form.get('nome_de_exibicao')
+        password_form = request.form.get('password')
+        password_confirm_form = request.form.get('password_confirm')
+
+        if password_form != password_confirm_form:
+            flash('As senhas não conferem.', 'danger')
+            return redirect(url_for('register_page'))
+        
+        usuario_existente = Usuario.query.filter_by(username=username_form).first()
+        if usuario_existente:
+            flash('Este nome de usuário já está em uso.', 'danger')
+            return redirect(url_for('register_page'))
+
+        novo_usuario = Usuario(
+            username=username_form,
+            nome_de_exibicao=nome_form
+        )
+        
+        novo_usuario.set_password(password_form)
+
+        db.session.add(novo_usuario)
+        db.session.commit()
+
+        login_user(novo_usuario)
+        flash('Conta criada com sucesso! Você já está logado.', 'success')
+
+        return redirect(url_for('admin_page'))
+    return render_template('register.html')
+
 @app.route('/login', methods=['GET', 'POST'])
 def login_page():
     if current_user.is_authenticated:
