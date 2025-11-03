@@ -24,6 +24,25 @@
       {% endif %}
     {% endwith %}
 
+    <div class="card bg-dark border-secondary mb-4">
+      <div class="card-body">
+        <h5 class="card-title">Alterar Foto de Perfil</h5>
+        
+        <form action="{{ url_for('upload_imagem') }}" method="POST" enctype="multipart/form-data">
+          
+          <div class="mb-3">
+            <label for="imagem" class="form-label">Escolher nova imagem (JPG ou PNG)</label>
+            <input class="form-control" type="file" id="imagem" name="imagem" accept="image/png, image/jpeg">
+          </div>
+          <button type="submit" class="btn btn-primary">Salvar Foto</button>
+        </form>
+      </div>
+    </div>
+
+    <div class="card bg-dark border-secondary mb-4">
+      <div class="card-body">
+        <h5 class="card-title">Adicionar Novo Link</h5>
+
 
     <div class="card bg-dark border-secondary mb-4">
       <div class="card-body">

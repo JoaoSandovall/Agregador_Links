@@ -12,6 +12,7 @@ class Usuario(db.Model, UserMixin):
     bio = db.Column(db.Text, nullable=True)
 
     password_hash = db.Column(db.String(256), nullable=True)
+    imagem_perfil = db.Column(db.String(300), nullable=True, default='default.jpg')
     links = db.relationship('Link', backref='usuario', lazy=True, cascade="all, delete-orphan")
 
     def set_password(self, password):

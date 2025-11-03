@@ -1,8 +1,10 @@
 import os 
 from flask import Flask, render_template, redirect, url_for, request, flash
+from werkzeug.utils import secure_filename
 from dotenv import load_dotenv
 from models import db, Usuario, Link
 from flask_login import LoginManager, login_user, logout_user, login_required, current_user
+from flask_migrate import Migrate
 
 load_dotenv()
 
@@ -15,8 +17,13 @@ if not db_url:
 app.config['SQLALCHEMY_DATABASE_URI'] = db_url
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 app.config['SECRET_KEY'] = os.getenv('SECRET_KEY')
+app.config['SECRET_KEY'] = os.getenv('SECRET_KEY')
+app.config['UPLOAD_FOLDER'] = os.path.join(app.root_path, 'static', 'uploads')
+ALLOWED_EXTENSIONS = {'png', 'jpg', 'jpeg' }
 
 db.init_app(app)
+
+migrate = Migrate(app, db)
 
 login_manager = LoginManager()
 login_manager.init_app(app)
@@ -24,6 +31,10 @@ login_manager.init_app(app)
 login_manager.login_view = 'login_page'
 login_manager.login_message = 'Você precisa estr logado para acessar esta página.'
 login_manager.login_message_category = 'danger'
+
+def allowed_file(filename):
+    return '.'in filename and \
+    filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS 
 
 @login_manager.user_loader
 def load_user(user_id):
@@ -149,6 +160,26 @@ def edit_link(link_id):
     
     return render_template('edit_link.html', link=link)
 
+@app.route('/admin/upload', methods=['POST'])
+@login_required
+def upload_imagem()
+    if 'imagem' no in request.files:
+        flash('Nenhum arquivo enviado.', 'danger')
+        return redirect(url_for('admin_page'))
+    
+    file = request.files['imagem']
+
+    if file.filename == '':
+        flash('Nenhum arquivo selecionado.', 'warning')
+        return redirect(url_for('admin_page'))
+    
+    if file and allowed_file(file.file):
+        secure_name = secure_filename(file.filename)
+        _ , extensao = os.path.splitext(secure_name)
+        filename = str()
+    """Continuar código"""
+
+
 @app.route('/admin/update/<int:link_id>', methods=['POST'])
 @login_required
 def update_link(link_id):
@@ -167,10 +198,6 @@ def update_link(link_id):
 
     flash('Link atualizado com sucesso!', "success")
     return redirect(url_for('admin_page'))
-
-@app.route('/')
-def index():
-    return "Olá, mundo"
 
 @app.route('/<string:username>')
 def pagina_perfil(username):
