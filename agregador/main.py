@@ -1,39 +1,26 @@
 import os 
 from flask import Flask, render_template, redirect, url_for, request, flash
 from werkzeug.utils import secure_filename
-from dotenv import load_dotenv
+from config import Config
 from models import db, Usuario, Link
 from flask_login import LoginManager, login_user, logout_user, login_required, current_user
 from flask_migrate import Migrate
 
-load_dotenv()
-
 app = Flask(__name__)
 
-db_url = os.getenv('DATABASE_URL')
-if not db_url:
-    raise ValueError("DATABASE_URL não está configurado no arquivo .env")
-
-app.config['SQLALCHEMY_DATABASE_URI'] = db_url
-app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
-app.config['SECRET_KEY'] = os.getenv('SECRET_KEY')
-app.config['UPLOAD_FOLDER'] = os.path.join(app.root_path, 'static', 'uploads')
-ALLOWED_EXTENSIONS = {'png', 'jpg', 'jpeg' }
+app.config.from_object(Config)
+def allowed_file(filename):
+    return '.' in filename and \
+        filename.rsplit('.', 1)[1].lower() in app.config['ALLOWED_EXTENSIONS']
 
 db.init_app(app)
-
 migrate = Migrate(app, db)
-
 login_manager = LoginManager()
 login_manager.init_app(app)
 
 login_manager.login_view = 'login_page'
 login_manager.login_message = 'Você precisa estar logado para acessar esta página.'
 login_manager.login_message_category = 'danger'
-
-def allowed_file(filename):
-    return '.'in filename and \
-    filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS 
 
 @login_manager.user_loader
 def load_user(user_id):
