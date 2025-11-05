@@ -102,10 +102,15 @@
     </ul>
     
     <hr class="my-4">
+    <div>
     <a href="{{ url_for('pagina_perfil', username=usuario.username) }}" class="btn btn-outline-light" target="_blank">
       Ver Página Pública
     </a>
 
+    <a href="{{ url_for('logout_page') }}" class="btn btn-danger ms-3">
+        Sair (Logout)
+    </a>
+    </div>
   </div> <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
