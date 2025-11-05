@@ -2,7 +2,7 @@ import os
 from flask import Flask, render_template, redirect, url_for, request, flash
 from werkzeug.utils import secure_filename
 from config import Config
-from models import db, Usuario, Link
+from agregador.models import db, Usuario, Link
 from flask_login import LoginManager, login_user, logout_user, login_required, current_user
 from flask_migrate import Migrate
 
