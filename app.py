@@ -199,6 +199,21 @@ def upload_imagem():
 
     return redirect(url_for('admin_page'))
 
+@app.route('/admin/update_profile', methods=['POST'])
+@login_required
+def update_profile():
+    novo_nome = request.form.get('nome_de_exibicao')
+    nova_bio = request.form.get('bio')
+
+    current_user.nome_de_exibicao = novo_nome
+    current_user.bio = nova_bio
+    
+    db.session.commit()
+
+    flash('perfil atualizado com sucesso!', 'success')
+
+    return redirect(url_for('admin_page'))
+
 @app.route('/admin/update/<int:link_id>', methods=['POST'])
 @login_required
 def update_link(link_id):
