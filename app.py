@@ -39,6 +39,10 @@ def allowed_file(filename):
 def load_user(user_id):
     return Usuario.query.get(int(user_id))
 
+@app.route('/')
+def index():
+    return redirect(url_for('login_page'))
+
 @app.route('/register', methods=['GET', 'POST'])
 def register_page():
     if current_user.is_authenticated:
