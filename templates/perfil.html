@@ -14,7 +14,9 @@
     
 <div class="container profile-container text-center">
     
-    <img src="https://via.placeholder.com/150" alt="Foto de Perfil" class="profile-pic">
+    <img src="{{ url_for('static', filename='uploads/' + usuario.imagem_perfil) }}" 
+         alt="Foto de Perfil" 
+         class="profile-pic">
 
     <h1 class="h2 text-white">{{ usuario.nome_de_exibicao }}</h1>
     

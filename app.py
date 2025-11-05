@@ -162,8 +162,8 @@ def edit_link(link_id):
 
 @app.route('/admin/upload', methods=['POST'])
 @login_required
-def upload_imagem()
-    if 'imagem' no in request.files:
+def upload_imagem():
+    if 'imagem' not in request.files:
         flash('Nenhum arquivo enviado.', 'danger')
         return redirect(url_for('admin_page'))
     
@@ -173,12 +173,28 @@ def upload_imagem()
         flash('Nenhum arquivo selecionado.', 'warning')
         return redirect(url_for('admin_page'))
     
-    if file and allowed_file(file.file):
+    if file and allowed_file(file.filename):
         secure_name = secure_filename(file.filename)
         _ , extensao = os.path.splitext(secure_name)
-        filename = str()
-    """Continuar código"""
+        filename = str(current_user.id) + extensao
 
+        old_pic = current_user.imagem_perfil
+        if old_pic and old_pic != 'default.jpg':
+            try:
+                os.remove(os.path.join(app.config['UPLOAD_FOLDER'], old_pic))
+            except FileNotFoundError:
+                print(f"Arquivo antigo {old_pic} não encontrado.")
+
+        file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
+
+        current_user.imagem_perfil = filename
+        db.session.commit()
+
+        flash('Foto de perfil atualizada!', 'success')
+    else:
+        flash('Tipo de arquivo inválido. Use apenas PNG, JPG ou JPEG.', 'danger')
+
+    return redirect(url_for('admin_page'))
 
 @app.route('/admin/update/<int:link_id>', methods=['POST'])
 @login_required
