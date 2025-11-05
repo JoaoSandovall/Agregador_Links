@@ -27,9 +27,7 @@
     <div class="card bg-dark border-secondary mb-4">
       <div class="card-body">
         <h5 class="card-title">Alterar Foto de Perfil</h5>
-        
         <form action="{{ url_for('upload_imagem') }}" method="POST" enctype="multipart/form-data">
-          
           <div class="mb-3">
             <label for="imagem" class="form-label">Escolher nova imagem (JPG ou PNG)</label>
             <input class="form-control" type="file" id="imagem" name="imagem" accept="image/png, image/jpeg">
@@ -42,12 +40,6 @@
     <div class="card bg-dark border-secondary mb-4">
       <div class="card-body">
         <h5 class="card-title">Adicionar Novo Link</h5>
-
-
-    <div class="card bg-dark border-secondary mb-4">
-      <div class="card-body">
-        <h5 class="card-title">Adicionar Novo Link</h5>
-        
         <form action="{{ url_for('add_link') }}" method="POST">
           <div class="mb-3">
             <label for="titulo" class="form-label">Título</label>
@@ -62,7 +54,6 @@
       </div>
     </div>
 
-
     <h5 class="mb-3">Links Atuais</h5>
     <ul class="list-group">
       {% for link in usuario.links %}
@@ -71,23 +62,20 @@
             <strong>{{ link.titulo }}</strong>
             <small class="d-block text-secondary">{{ link.url_destino }}</small>
           </div>
-          
           <div>
             <a href="{{ url_for('edit_link', link_id=link.id) }}" class="btn btn-outline-secondary btn-sm me-2">
               Editar
             </a>  
-            
             <a href="{{ url_for('delete_link', link_id=link.id) }}" class="btn btn-outline-danger btn-sm">
               Deletar
             </a>
           </div>
-
         </li>
       {% else %}
         <li class="list-group-item bg-dark text-white-50 border-secondary">Nenhum link cadastrado.</li>
       {% endfor %}
     </ul>
-    
+
     <hr class="my-4">
     <a href="{{ url_for('pagina_perfil', username=usuario.username) }}" class="btn btn-outline-light" target="_blank">
       Ver Página Pública

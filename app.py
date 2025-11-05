@@ -17,7 +17,6 @@ if not db_url:
 app.config['SQLALCHEMY_DATABASE_URI'] = db_url
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 app.config['SECRET_KEY'] = os.getenv('SECRET_KEY')
-app.config['SECRET_KEY'] = os.getenv('SECRET_KEY')
 app.config['UPLOAD_FOLDER'] = os.path.join(app.root_path, 'static', 'uploads')
 ALLOWED_EXTENSIONS = {'png', 'jpg', 'jpeg' }
 
@@ -29,7 +28,7 @@ login_manager = LoginManager()
 login_manager.init_app(app)
 
 login_manager.login_view = 'login_page'
-login_manager.login_message = 'Você precisa estr logado para acessar esta página.'
+login_manager.login_message = 'Você precisa estar logado para acessar esta página.'
 login_manager.login_message_category = 'danger'
 
 def allowed_file(filename):
@@ -99,7 +98,7 @@ def login_page():
 @login_required
 def logout_page():
     logout_user()
-    flash('Você foi desconectado.', 'sucess')
+    flash('Você foi desconectado.', 'success')
     return redirect(url_for('login_page'))
 
 @app.route('/admin')
@@ -225,4 +224,4 @@ def pagina_perfil(username):
     return render_template('perfil.html', usuario=usuario)
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.run(debug=False)
