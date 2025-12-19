@@ -55,7 +55,7 @@ O projeto foi refatorado para usar uma estrutura de "pacote" (`agregador/`) para
 git clone [https://github.com/JoaoSandovall/Agregador_Links.git](https://github.com/JoaoSandovall/Agregador_Links.git)
 cd Agregador_Links
 2. Configurar o Ambiente Virtual
-Bash
+
 
 # Criar o ambiente virtual
 python -m venv venv
@@ -65,7 +65,6 @@ python -m venv venv
 # (macOS/Linux)
 # source venv/bin/activate
 3. Instalar as Dependências
-Bash
 
 pip install -r requirements.txt
 4. Configurar as Variáveis de Ambiente
@@ -84,7 +83,6 @@ SECRET_KEY="SUA_CHAVE_SECRETA_LONGA_E_ALEATORIA"
 5. Correr as Migrações do Banco
 Para construir as tabelas (usuario e link) no seu banco de dados pela primeira vez:
 
-Bash
 
 # Definir a app Flask (PowerShell)
 $env:FLASK_APP = "agregador.main"
@@ -93,7 +91,6 @@ $env:FLASK_APP = "agregador.main"
 # Correr o "upgrade"
 python -m flask db upgrade
 6. Executar a Aplicação
-Bash
 
 # Correr o servidor de desenvolvimento do Flask
 python -m flask run
