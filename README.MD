@@ -79,7 +79,7 @@ Fragmento do código
 DATABASE_URL="postgresql://SEU_USER:SUA_SENHA@localhost:5432/agregador_db"
 
 # Gere uma chave secreta forte (ex: python -c "import secrets; print(secrets.token_hex(24))")
-SECRET_KEY="SUA_CHAVE_SECRETA_LONGA_E_ALEATORIA"
+SECRET_KEY="SUA_SENHA"
 5. Correr as Migrações do Banco
 Para construir as tabelas (usuario e link) no seu banco de dados pela primeira vez:
 
