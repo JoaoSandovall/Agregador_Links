@@ -1,5 +1,6 @@
 import os
 from dotenv import load_dotenv
+import  cloudinary
 
 load_dotenv()
 
@@ -14,3 +15,5 @@ class Config:
 
     UPLOAD_FOLDER = os.path.join(os.path.abspath(os.path.dirname(__file__)), 'static', 'uploads')
     ALLOWED_EXTENSIONS = {'png', 'jpg', 'jpeg'}
+
+    CLOUDINARY_URL = os.getenv('CLOUDINARY_URL')

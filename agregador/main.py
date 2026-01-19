@@ -5,6 +5,7 @@ from .config import Config
 from .models import db, Usuario, Link
 from flask_login import LoginManager, login_user, logout_user, login_required, current_user
 from flask_migrate import Migrate
+import cloudinary.uploader
 
 app = Flask(__name__)
 
@@ -164,6 +165,9 @@ def upload_imagem():
         return redirect(url_for('admin_page'))
     
     if file and allowed_file(file.filename):
+
+        upload_result = cloudinary.uploader.upload(file)
+
         secure_name = secure_filename(file.filename)
         _ , extensao = os.path.splitext(secure_name)
         filename = str(current_user.id) + extensao
@@ -177,7 +181,7 @@ def upload_imagem():
 
         file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
 
-        current_user.imagem_perfil = filename
+        current_user.imagem_perfil = upload_result['secure_url']
         db.session.commit()
 
         flash('Foto de perfil atualizada!', 'success')
